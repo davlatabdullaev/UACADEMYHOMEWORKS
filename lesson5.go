@@ -347,65 +347,117 @@ func main() {
 		} */
 
 	// 6-masala
+	/*     *
+	   *   *
+	 *       *
+	* * * * * *
+	*/
 
-	// SWITCH
+	/*	var n = 0
+		fmt.Print(" n = ")
+		fmt.Scan(&n)
 
-	// 1-masala
-	/*
-		for true {
-			fmt.Println("\n Robot boshlang'ich qaysi tomonga qarab turibdi \n s - shimol \n j - janub \n q - sharq \n g - garb")
-			var holat string
-			fmt.Scan(&holat)
-			fmt.Println("Robotga komanda bering \n 0 - harakatni davom ettir \n 1 - chapga buril \n 2 - o'nga buril ")
-			var kom int
-			fmt.Scan(&kom)
-			if holat == "s" {
-				switch kom {
-				case 0:
-					fmt.Println("Komandadan keyingi holati: Shimol")
-				case 1:
-					fmt.Println("Komandadan keyingi holati: G'arb")
-				case 2:
-					fmt.Println("Komandadan keyingi holati: Sharq")
-				}
-
-			} else if holat == "j" {
-				switch kom {
-				case 0:
-					fmt.Println("Komandadan keyingi holati: Janub")
-				case 1:
-					fmt.Println("Komandadan keyingi holati: Sharq")
-				case 2:
-					fmt.Println("Komandadan keyingi holati: G'arb")
-				}
-
-			} else if holat == "q" {
-				switch kom {
-				case 0:
-					fmt.Println("Komandadan keyingi holati: Sharq")
-				case 1:
-					fmt.Println("Komandadan keyingi holati: Shimol")
-				case 2:
-					fmt.Println("Komandadan keyingi holati: Janub")
-				}
-
-			} else if holat == "g" {
-				switch kom {
-				case 0:
-					fmt.Println("Komandadan keyingi holati: G'arb")
-				case 1:
-					fmt.Println("Komandadan keyingi holati: Janub")
-				case 2:
-					fmt.Println("Komandadan keyingi holati: Shimol")
-				}
-
+		for i := 0; i < n; i++ {
+			for j := i; j < n-1; j++ {
+				fmt.Print(" ")
 			}
 
+			for k := 0; k <= i; k++ {
+				if k == 0 || k == i {
+					fmt.Print("* ")
+				} else if i == n-1 {
+					fmt.Print("* ")
+				} else {
+					fmt.Print("  ")
+				}
+			}
+			fmt.Println()
 		}
 	*/
 
-	// 2-masala
+	// 6-masala
+	/*   * * * *
+	     *     *
+	     *     *
+		 * * * *
+	*/
+	for true {
+		var n int = 0
+		fmt.Print(" n = ")
+		fmt.Scan(&n)
+		for i := 1; i <= n; i++ {
+			for j := 1; j <= n; j++ {
+				if j == 1 || j == n {
+					fmt.Print("* ")
+				} else if i == 1 || i == n {
+					fmt.Print("* ")
+				} else {
+					fmt.Print("  ")
+				}
+			}
+			fmt.Println()
+		}
+	}
+}
 
+// SWITCH
+
+// 1-masala
+/*
+	for true {
+		fmt.Println("\n Robot boshlang'ich qaysi tomonga qarab turibdi \n s - shimol \n j - janub \n q - sharq \n g - garb")
+		var holat string
+		fmt.Scan(&holat)
+		fmt.Println("Robotga komanda bering \n 0 - harakatni davom ettir \n 1 - chapga buril \n 2 - o'nga buril ")
+		var kom int
+		fmt.Scan(&kom)
+		if holat == "s" {
+			switch kom {
+			case 0:
+				fmt.Println("Komandadan keyingi holati: Shimol")
+			case 1:
+				fmt.Println("Komandadan keyingi holati: G'arb")
+			case 2:
+				fmt.Println("Komandadan keyingi holati: Sharq")
+			}
+
+		} else if holat == "j" {
+			switch kom {
+			case 0:
+				fmt.Println("Komandadan keyingi holati: Janub")
+			case 1:
+				fmt.Println("Komandadan keyingi holati: Sharq")
+			case 2:
+				fmt.Println("Komandadan keyingi holati: G'arb")
+			}
+
+		} else if holat == "q" {
+			switch kom {
+			case 0:
+				fmt.Println("Komandadan keyingi holati: Sharq")
+			case 1:
+				fmt.Println("Komandadan keyingi holati: Shimol")
+			case 2:
+				fmt.Println("Komandadan keyingi holati: Janub")
+			}
+
+		} else if holat == "g" {
+			switch kom {
+			case 0:
+				fmt.Println("Komandadan keyingi holati: G'arb")
+			case 1:
+				fmt.Println("Komandadan keyingi holati: Janub")
+			case 2:
+				fmt.Println("Komandadan keyingi holati: Shimol")
+			}
+
+		}
+
+	}
+*/
+
+// 2-masala
+/*
 	for true {
 		fmt.Println("\n Lokatr boshlang'ich qaysi tomonga qaratilgan \n s - shimol \n j - janub \n q - sharq \n g - garb")
 		var holat string
@@ -501,5 +553,4 @@ func main() {
 
 		}
 
-	}
-}
+	} */
