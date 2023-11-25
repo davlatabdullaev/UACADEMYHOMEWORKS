@@ -92,9 +92,9 @@ func Triliongacha(m int) {
 		}
         if sum==10{
 			fmt.Print(" milliard ")
-		} else if sum==7{
+		} else if sum==7 && qiymat!=0{
 			fmt.Print(" million ")
-		}	else if sum==4{
+		}	else if sum==4 && qiymat!=0{
 			fmt.Print(" ming ")
 		}
 		kson=kson%xona
