@@ -158,6 +158,7 @@ func struct5() {
 		{name: "Granada", coach: "Xoes Luis Oltra", PlayersCount: 18, Captain: "Toni Adams"},
 		{name: "Osasuna", coach: "Yagoba Arrasate", PlayersCount: 23, Captain: "Oier Sanjurjo"},
 	}
+	b := false
 	l := len(Teams)
 	NewTeam := []Team{}
 	var a string
@@ -165,23 +166,32 @@ func struct5() {
 	for i := 0; i < l; i++ {
 		fmt.Print("Enter a club name: ")
 		fmt.Scan(&a)
-
-		if a == Teams[i].name {
-			NewTeam = append(NewTeam, Teams[i])
+   for j:=0; j<l; j++ {
+		if a == Teams[j].name {
+			b = true
+			NewTeam = append(NewTeam, Teams[j])
 		}
 	}
-    ln:=len(NewTeam)
-    
-	for i:=0; i<ln; i++ {
-		for j:=i+1; j<ln; j++{
-			if NewTeam[i].PlayersCount<NewTeam[j].PlayersCount{
-				NewTeam[i].PlayersCount, NewTeam[j].PlayersCount = NewTeam[j].PlayersCount, NewTeam[i].PlayersCount
+}
+
+if b {
+	l1:=len(NewTeam)
+	for i := 0; i < l1; i++ {
+		for j := i + 1; j < l1; j++ {
+			if NewTeam[i].PlayersCount < NewTeam[j].PlayersCount {
+				NewTeam[i], NewTeam[j] = NewTeam[j], NewTeam[i]
 			}
 		}
 	}
-	for i:=0; i<ln; i++{
-		fmt.Print(NewTeam[i])
+}
+	if b {
+		l1:=len(NewTeam)
+		for i := 0; i < l1; i++ {
+			fmt.Printf("Name: %s, Coach: %s, PlayersCount: %d, Captain: %s\n",
+				NewTeam[i].name, NewTeam[i].coach, NewTeam[i].PlayersCount, NewTeam[i].Captain)
+		}
 	}
+	
 
 }
 
