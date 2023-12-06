@@ -5,94 +5,105 @@ import (
 	"math/rand"
 )
 
-
-
 func main() {
-	for true {
-		player := Player{}
-
-		game := Game{}
-
-		name := getPlayerName()
-
-		newPlayer := player.NewPlayer(name)
-
-		newGame := game.NewGame(newPlayer)
-
-		newGame.StartGame()
-	}
-}
-
-type Game struct {
-	Player       Player
-}
-
-func (g Game) NewGame(player Player) Game {
-	return Game{
-		Player:       player,
-	}
-}
-func (g Game) StartGame() {
-	FNum := 0
-	fmt.Print("Sevimli raqamingizni kiriting : ")
-	fmt.Scan(&FNum)
-
-	fmt.Printf("Salom %s\n", g.Player.Name)
-	fmt.Println(" Bu kompyuter o'ylagan sonni topish o'yini ")
-	chances := 0
-	fmt.Print(" O'yinda necha marta urinib ko'rmoqchisiz: ") 
-	fmt.Scan(&chances)
-	son := 0
-	if chances<5{
-		son=50
-	} else if chances >=5 && chances <10{
-		son=100
-	} else {
-		son=500
-	}
-    var	RandomNumber int=rand.Intn(son)
-	for i := 0; i < chances; i++ {
-		var n int
-		fmt.Printf("%d - urinish \n son kiriting: ", i+1)
-		fmt.Scan(&n)
-
-		if n == RandomNumber {
-			fmt.Println("TABRIKLAYMIZ")
-			return
-		} else if n > RandomNumber {
-			fmt.Println("Random son siz kiritgan sondan kichkina")
-		} else if n < RandomNumber {
-			fmt.Println("Random son siz kiritgan sondam katta ")
-		} else if n==FNum{
-			fmt.Println("Random son sizning sevimli soningizga teng")
-		} else {
-			fmt.Println("Xato")
-		}
-	}
-	fmt.Println(" Yutqazdingiz\n kompyuter o'ylagan son ", RandomNumber, " edi")
+	// player := Player{}
+	// game   := Game{}
+	player := getPlayerInfo()
+	game := NewGame(player)
+	RandomNumber(player, game)
+	StartGame(player, game)
 }
 
 type Player struct {
-	Name            string
-	Age             int
-	FNum            int
-	Chances         int
+	name    string
+	chances int
+	age     int
+	FN      int
+}
+type Game struct {
+	RN     int
+	PLAYER Player
 }
 
-func (p Player) NewPlayer(name string) Player {
-	return Player{
-		Name:    name,
-	}
-}
-func getPlayerName() string{
+func getPlayerInfo() Player {
 	var (
-		name            string
-		age             int
+		Name    string
+		Chances int
+		Age     int
+		fn      int
+		player  Player
 	)
-	fmt.Print("Ismingizni kiriting : ")
-	fmt.Scan(&name)
-	fmt.Print("Yoshingizni kiriting : ")
-	fmt.Scan(&age)
-	
-	return name
+	fmt.Println("Ismingizni kiriting: ")
+	fmt.Scan(&Name)
+	fmt.Println("Nechta imkoniyat so'raysiz: ")
+	fmt.Scan(&Chances)
+	fmt.Println("Yoshingizni kiriting: ")
+	fmt.Scan(&Age)
+	fmt.Println("Qaysi raqamni yaxshi ko'rasiz: ")
+	fmt.Scan(&fn)
+
+	player.name = Name
+	player.chances = Chances
+	player.age = Age
+	player.FN = fn
+
+	return player
+}
+
+func NewGame(player Player) Game {
+	game := Game{}
+	if player.chances==1 {
+		game.RN=rand.Intn(5)
+	} else if player.chances <= 3 {
+		game.RN = rand.Intn(10)
+	} else if player.chances <= 5 {
+		game.RN = rand.Intn(20)
+	} else if player.chances <= 10 {
+		game.RN = rand.Intn(50)
+	} else {
+		game.RN = rand.Intn(100)
+	}
+	if player.age <= 10 || player.age >= 60 {
+		game.RN = rand.Intn(10)
+	}
+	return game
+}
+func RandomNumber(player Player, game Game) {
+	sum := 0
+	for j:=0; j<1; j++ {
+	for i := 2; i <= game.RN/2; i++ {
+		if game.RN%i == 0 {
+			sum++
+		}
+	}
+	if sum == 0 {
+		fmt.Println("Tasodifiy son tub")
+	} 
+}
+}
+
+func StartGame(p Player, g Game) {
+	fmt.Println("Assalomu alaykum ", p.name)
+	fmt.Println("Bu tasodifiy sonni topish o'yini ")
+	if g.RN == p.FN {
+		fmt.Println("Tasodifiy son sizning sevimli soningizga teng")
+	}
+	for i := 0; i < p.chances; i++ {
+
+		number := 0
+		fmt.Println(i+1, " - sonni kiriting ")
+		fmt.Scan(&number)
+		if number > g.RN {
+			fmt.Println("Tasodifiy son siz yozgan sondan kichkina")
+		} else if number < g.RN {
+			fmt.Println("Tasodifiy son siz yozgan sondan katta")
+		}
+		if g.RN == number {
+			fmt.Println("TABRIKLAYMIZ. SIZ TASODIFIY SONNI TOPDINGIZ")
+			return
+		}
+	}
+
+	fmt.Println("Yutqazdingiz tasodifiy son ", g.RN, " edi ")
+
 }
