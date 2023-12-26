@@ -1,37 +1,36 @@
 package report
 
 import (
-	"airport-basa/Ticket"
-	"database/sql"
+	ticket "airport-basa/Ticket"
+	connectdb "airport-basa/connectDB"
 	"fmt"
+	"database/sql"
+	"log"
 )
-
-type AirBase struct {
+type Report struct {
 	db *sql.DB
 }
 
-func New(db *sql.DB) AirBase {
-	return AirBase{
+func New(db *sql.DB) Report {
+	return Report{
 		db: db,
 	}
 }
 
-func ConnectDB() (*sql.DB, error) {
-	db, err := sql.Open("postgres", "host=localhost port=5432 user=davlat password=1 database=airport sslmode=disable")
+func (r Report) GetTicketsByCities() ([]ticket.Ticket, error) {
+	db, err := connectdb.ConnectDB()
 	if err != nil {
-		return nil, err
+		log.Fatal("error while connecting to the database")
 	}
-	return db, nil
-}
-
-func (a AirBase) GetTicketsByCities() ([]ticket.Ticket, error) {
+	defer db.Close()
+	
 	var From string
 	fmt.Println("From: ")
 	fmt.Scan(&From)
 	var To string
 	fmt.Println("To: ")
 	fmt.Scan(&To)
-	rows, err := a.db.Query(`SELECT id, from_city, to_city, flight_date
+	rows, err := r.db.Query(`SELECT id, from_city, to_city, flight_date
 		FROM ticket
 		WHERE from_city = $1 AND to_city = $2`, From, To)
 	if err != nil {
@@ -49,25 +48,6 @@ func (a AirBase) GetTicketsByCities() ([]ticket.Ticket, error) {
 		tickets = append(tickets, ticket)
 	}
 	return tickets, nil
+	
 }
 
-func GenerateReport() {
-	db, err := ConnectDB()
-	if err != nil {
-		fmt.Println("Error connecting to the database:", err)
-		return
-	}
-	defer db.Close()
-
-	airBase := New(db)
-
-	tickets, err := airBase.GetTicketsByCities()
-	if err != nil {
-		fmt.Println("Error getting tickets:", err)
-		return
-	}
-	fmt.Println("Tickets for the specified cities:")
-	for _, t := range tickets {
-		fmt.Printf("ID: %d, From: %s, To: %s, Date: %s\n", t.ID, t.FromCity, t.ToCity, t.FlightDate)
-	}
-}

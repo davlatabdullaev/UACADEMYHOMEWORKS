@@ -1,6 +1,7 @@
 package ticket
 
 import (
+	connectdb "airport-basa/connectDB"
 	"database/sql"
 	"fmt"
 	"log"
@@ -24,16 +25,8 @@ func New(db *sql.DB) AirBasa {
 	}
 }
 
-func ConnectDB() (*sql.DB, error) {
-	db, err := sql.Open("postgres", "host=localhost port=5432 user=davlat password=1 database=airport sslmode=disable")
-	if err != nil {
-		return nil, err
-	}
-	return db, nil
-}
-
 func FuncForTickets() {
-	db, err := ConnectDB()
+	db, err :=connectdb.ConnectDB()
 	if err != nil {
 		log.Fatal("error while connecting to the database")
 	}
