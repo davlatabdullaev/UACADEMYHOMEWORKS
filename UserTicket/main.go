@@ -22,37 +22,23 @@ func main() {
 	fmt.Scan(&cmd)
 	switch cmd {
 	case 1:
-		var password = "12345"
-		var code = ""
-		fmt.Println("Enter password: ")
-		fmt.Scan(&code)
-		if code==password{
 		passenger.FuncForPassengers()
-		} else {
-			fmt.Println("wrong password...")
-		}
+		
 	case 2:
-		var parol = "12345"
-		var kod = ""
-		fmt.Println("Enter password: ")
-		fmt.Scan(&kod)
-		if kod==parol{
 		ticket.FuncForTickets()
-		} else {
-			fmt.Println("wrong password...")
-		}
+		
 	case 3:
 		db, err := connectdb.ConnectDB()
-        if err != nil {
-            log.Fatal("Error connecting to the database:", err)
-            return
-        }
-        defer db.Close()
-        
-        airBaseReport := report.New(db)
-        tickets, err := airBaseReport.GetTicketsByCities()
-        fmt.Println(tickets)
-	default:
-		fmt.Println("no such command exists...")
-	}
+		if err != nil {
+			log.Fatal("Error connecting to the database:", err)
+			return
+		}
+		defer db.Close()
+	
+		airBaseReport := report.New(db)
+		if err := airBaseReport.GetTicketsByCities(); err != nil {
+			log.Fatal("Error generating report:", err)
+		}
+}
+
 }

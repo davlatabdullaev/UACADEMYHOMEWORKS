@@ -12,3 +12,4 @@ CREATE TABLE passenger (
     phone         varchar(13),
     ticket_id     int references ticket(id)
 );
+

@@ -1,12 +1,18 @@
+// package report
 package report
 
 import (
+	//ticket "airport-basa/ticket"
+	passenger "airport-basa/Passenger"
 	ticket "airport-basa/Ticket"
 	connectdb "airport-basa/connectDB"
-	"fmt"
 	"database/sql"
+	"fmt"
 	"log"
+	"os"
+	"text/tabwriter"
 )
+
 type Report struct {
 	db *sql.DB
 }
@@ -17,37 +23,42 @@ func New(db *sql.DB) Report {
 	}
 }
 
-func (r Report) GetTicketsByCities() ([]ticket.Ticket, error) {
+
+
+func (r Report) GetTicketsByCities() error {
 	db, err := connectdb.ConnectDB()
 	if err != nil {
 		log.Fatal("error while connecting to the database")
 	}
 	defer db.Close()
-	
-	var From string
-	fmt.Println("From: ")
+	var From, To string
+	fmt.Print("From: ")
 	fmt.Scan(&From)
-	var To string
-	fmt.Println("To: ")
+	fmt.Print("To: ")
 	fmt.Scan(&To)
-	rows, err := r.db.Query(`SELECT id, from_city, to_city, flight_date
-		FROM ticket
-		WHERE from_city = $1 AND to_city = $2`, From, To)
+
+	rows, err := r.db.Query(`SELECT t.id, t.from_city, t.to_city, p.first_name, p.last_name, p.phone, t.flight_date
+		FROM ticket t FULL
+		JOIN passenger p ON t.id = p.ticket_id
+		WHERE t.from_city = $1 AND t.to_city = $2`, From, To)
 	if err != nil {
-		return nil, err
+		return err
 	}
 	defer rows.Close()
 
-	tickets := []ticket.Ticket{}
-	for rows.Next() {
-		ticket := ticket.Ticket{}
-		err := rows.Scan(&ticket.ID, &ticket.FromCity, &ticket.ToCity, &ticket.FlightDate)
-		if err != nil {
-			return nil, err
-		}
-		tickets = append(tickets, ticket)
-	}
-	return tickets, nil
-	
-}
+	w:= tabwriter.NewWriter(os.Stdout, 1,8,1, '\t', 0)
+	fmt.Fprintf(w, "N\tFrom City\tTo City\tPassengers full name \tPhone\tFlight Date\t")
+	defer w.Flush()
 
+
+
+	for rows.Next() {
+		tickets := ticket.Ticket{}
+		passengers := passenger.Passenger{}
+		if err := rows.Scan(&passengers.ID, &tickets.FromCity, &tickets.ToCity, &passengers.FirstName, &passengers.LastName, &passengers.Phone, &tickets.FlightDate); err != nil {
+			return err
+		}
+		fmt.Fprintf(w, "%d\t%s\t%s\t%s %s\t%s\t%s\n", passengers.ID, tickets.FromCity, tickets.ToCity, passengers.FirstName, passengers.LastName, passengers.Phone, tickets.FlightDate)
+	}
+	return nil
+}
