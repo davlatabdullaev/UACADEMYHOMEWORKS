@@ -1,7 +1,9 @@
 package main
 
 import (
+	"fmt"
 	"log"
+	"net/http"
 	"test/config"
 	"test/controller"
 	"test/storage/postgres"
@@ -20,10 +22,8 @@ func main() {
 
 	con := controller.New(store)
 
-	//con.CreateCar()
-	//con.CreateDriver()
-	//	con.GetCarByID()
-	//con.UpdateCarByID()
-	//con.GetList()
-    con.CreateDriver()
+	//http.HandleFunc("/driver", con.Driver)
+	http.HandleFunc("/car", con.Car)
+    fmt.Println("listening at: ")
+	http.ListenAndServe(":8080", nil)
 }

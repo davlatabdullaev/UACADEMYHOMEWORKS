@@ -67,7 +67,7 @@ if _, err	:= c.DB.Exec(`update cars set model = $1, brand = $2, year = $3 where 
 }
 
 func (c carRepo) Delete(id uuid.UUID) error {
-	if _, err := c.DB.Exec(`delete cars where id = $1`, id); err!=nil{
+	if _, err := c.DB.Exec(`delete from cars where id = $1`, id); err!=nil{
 		return err
 	}
 	return nil
